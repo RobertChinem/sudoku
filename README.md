@@ -1,3 +1,5 @@
+![badge](https://img.shields.io/badge/RobertChinem-Sudoku-blue)
+
 # Sudoku
 
 Sudoku is a logic-based, combinatorial-number placement puzzle. The objective is to fill a 9x9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9. [wikipedia](https://en.wikipedia.org/wiki/Sudoku)
