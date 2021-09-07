@@ -1,46 +1,75 @@
-# Getting Started with Create React App
+# Sudoku
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Sudoku is a logic-based, combinatorial-number placement puzzle. The objective is to fill a 9x9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9. [wikipedia](https://en.wikipedia.org/wiki/Sudoku)
 
-## Available Scripts
+## Features
+- Options for the fill of the board's initial state.
+- Solver for all valid states.
 
-In the project directory, you can run:
+## Competitive programming
 
-### `yarn start`
+Sudoku can be modeled as a constraint satisfaction problem and code a sudoku solver is a typical competitive programming question. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+One of the most popular ways to solve this kind of problem is to use the backtracking approach.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+### Backtracking
+Backtracking is a general algorithm for finding solutions to some computational problems, notably constraint satisfaction problems, that incrementally builds candidates to the solutions, and abandons a candidate ("backtracks") as soon as it determines that the candidate cannot possibly be completed to a valid solution. [wikipedia](https://en.wikipedia.org/wiki/https://en.wikipedia.org/wiki/Backtracking)
 
-### `yarn test`
+### Implementation
+There are two main concepts that need to be clear:
+1. Constraints for insertion of number: each column, each row, and each of the nine 3×3 subgrids that compose the grid (also called "boxes", "blocks", or "regions") contain all of the digits from 1 to 9
+2. Backtracking concepts.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### Basic code idea
+[Click here to see my implementation](https://github.com/RobertChinem/sudoku/blob/main/src/Models/Sudoku.ts)
 
-### `yarn build`
+```typescript
+const UNDEFINED = -1
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+function canInsert(row: number, col: number, num: number, board: number[][]): boolean{
+    function canInsertRow(): boolean {
+        for(let j=0; j < 9; j++){
+            if(board[row][j] === num) return false
+        }
+        return true
+    }
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    function canInsertCol(): boolean {
+        for(let i=0; i < 9; i++){
+            if(board[i][col] === num) return false
+        }
+        return true
+    }
 
-### `yarn eject`
+    function canInsertSquare(): boolean {
+        let [startRow, startCol] = [Math.floor(row/3), Math.floor(col/3)]
+        for(let i=startRow; i < startRow+3; i++){
+            for(let j=startCol; j < startCol+3; j++){
+                if(board[i][j] === num) return false
+            }
+        }
+        return true
+    }
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    return [canInsertRow, canInsertCol, canInsertSquare].every(fn => fn())
+}
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+function sudokuSolver(i: number, j: number, board: number[][]): boolean{
+    if(i >= 9) return true
+    if(j >= 9) return sudokuSolver(i+1, 0)
+    if(board[i][j] != UNDEFINED) return sudokuSolver(i, j+1)
+    
+    for(let x=1; x <= 9; x++){
+        if(canInsert(i, j, x, board)){
+            board[i][j] = x
+            if(sudokuSolver(i, j+1, board)) return true
+            board[i][j] = UNDEFINED
+        }
+    }
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+    return false
+}
+```
 
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
