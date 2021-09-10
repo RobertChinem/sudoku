@@ -20,8 +20,6 @@ h3 {
 }
 
 .App {
-    z-index: 100;
-    position: fixed;
     left: 0;
     top: 0;
     width: 100%;
@@ -150,13 +148,23 @@ input[type=range]:focus::-ms-fill-upper {
     background: #EAF2FE;
 }
 
+.bg {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    left: 0px;
+    top: 0px;
+    z-index: -10;
+}
+
+
 .bg-top {
-    height: 50vh;
+    height: 50%;
     background-color: #307DF6;
 }
 
 .bg-bottom {
-    height: 50vh;
+    height: 50%;
     background-color: #EAF2FE;
 }
 

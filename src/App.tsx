@@ -59,8 +59,7 @@ function App() {
 
 	return (
 		<div>
-			<div className="bg-top"></div>
-			<div className="bg-bottom"></div>
+			
 			<Modal setModalState={setModalState} status={modalState} />
 			<div className="App">
 				<h1>Sudoku</h1>
@@ -80,6 +79,10 @@ function App() {
 					/>
 				</div>
 				<Keyboard board={board} selectedPosition={selectedPosition} sudoku={sudoku} setBoard={setBoard} hint={hint} />
+			</div>
+			<div className="bg">
+				<div className="bg-top"></div>
+				<div className="bg-bottom"></div>
 			</div>
 		</div>
 	)
